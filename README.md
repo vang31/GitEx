@@ -1,2 +1,0 @@
-# GitEx
-git pubkish
