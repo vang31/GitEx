@@ -14,7 +14,7 @@ public class Main {
         //userDJBDC.createUsersTable();
         //userDJBDC.removeUserById(1);
         //userDJBDC.cleanUsersTable();
-        //userDJBDC.saveUser("Tom","Holland", (byte) 22);
+        userDJBDC.saveUser("Tom","Holland", (byte) 22);
         //userDJBDC.dropUsersTable();
     }
 }
