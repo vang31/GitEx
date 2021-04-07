@@ -4,12 +4,19 @@ import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+// проджо класс, который отвечать требованиям:
+/*
+        1 должен быть гетеры и сеттеры на каждое поле
+        2 должен быть обязательно пустой конструктор
+        3 должен превчиный ключ == ID
+*/
+
 @Table
 public class User {
     @Id
     private Long id;
 
-    @Column
+    @Column // просто колонка которая будет отображаться в датеданных, должен совпадать с всем что в базе
     private String name;
 
     @Column
@@ -19,7 +26,6 @@ public class User {
     private Byte age;
 
     public User() {
-
     }
 
     public User(String name, String lastName, Byte age) {
@@ -58,5 +64,15 @@ public class User {
 
     public void setAge(Byte age) {
         this.age = age;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", age=" + age +
+                '}';
     }
 }

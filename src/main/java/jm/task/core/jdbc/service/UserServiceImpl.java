@@ -3,7 +3,9 @@ package jm.task.core.jdbc.service;
 import jm.task.core.jdbc.model.User;
 
 import java.util.List;
-
+/*
+сама реализация методов из userservice
+*/
 public class UserServiceImpl implements UserService {
     public void createUsersTable() {
 
