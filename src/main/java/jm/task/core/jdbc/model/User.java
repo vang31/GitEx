@@ -1,6 +1,7 @@
 package jm.task.core.jdbc.model;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -11,13 +12,14 @@ import javax.persistence.Table;
         3 должен превчиный ключ == ID
 */
 
-@Table
+@Entity
+@Table(name = "Users")
 public class User {
     @Id
     private Long id;
 
     @Column // просто колонка которая будет отображаться в датеданных, должен совпадать с всем что в базе
-    private String name;
+    private String firstName;
 
     @Column
     private String lastName;
@@ -29,7 +31,7 @@ public class User {
     }
 
     public User(String name, String lastName, Byte age) {
-        this.name = name;
+        this.firstName = name;
         this.lastName = lastName;
         this.age = age;
     }
@@ -42,12 +44,12 @@ public class User {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFirstName(String name) {
+        this.firstName = name;
     }
 
     public String getLastName() {
@@ -70,7 +72,7 @@ public class User {
     public String toString() {
         return "User{" +
                 "id=" + id +
-                ", name='" + name + '\'' +
+                ", name='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", age=" + age +
                 '}';

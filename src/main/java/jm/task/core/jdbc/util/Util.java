@@ -19,10 +19,8 @@ public class Util {
             connection = DriverManager.getConnection(
                     "jdbc:postgresql://localhost:5432/task1",
                     "postgres",
-                    "tungking01");
+                    "postgres");
             System.out.println("success");
-
-            return connection;
 
         } catch (SQLException e) {
             System.out.println("Download Driver failed");

@@ -1,12 +1,15 @@
-package configHibernate;
+package jm.task.core.jdbc.util;
 
 
+import jm.task.core.jdbc.model.User;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.Metadata;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+import org.hibernate.cfg.Configuration;
 import org.hibernate.cfg.Environment;
+import org.hibernate.service.ServiceRegistry;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -15,49 +18,24 @@ public class HibernateUtil {
     private static StandardServiceRegistry registry;
     private static SessionFactory sessionFactory;
 
-    public static SessionFactory getSessionFactory() {
-        if (sessionFactory == null) {
-            try {
-                //Создаем регисстрационный builder
-                StandardServiceRegistryBuilder registryBuilder = new StandardServiceRegistryBuilder();
-
-                //Прописываем настройки Hibernate, like xml properties
-                Map<String, String> settings = new HashMap<>();
-                settings.put(Environment.DRIVER, "org.postgresql.Driver");
-                settings.put(Environment.URL, "jdbc:postgresql://localhost:5432/task1");
-                settings.put(Environment.USER, "postgres");
-                settings.put(Environment.PASS, "postgres");
-                settings.put(Environment.DIALECT, "org.hibernate.dialect.PostgreSQL9Dialect");
-
-                //StandardServiceRegistryBuilder - используется для загрузки деталей
-                registryBuilder.applySettings(settings);
-
-                //Создаем регистратор, подвязываем на стандартномСервисеРегистреКонструкторе
-                registry = registryBuilder.build();
-
-                //Create MetadataSources - what is it??
-                MetadataSources sources = new MetadataSources(registry);
-
-                //Create Metadata
-                Metadata metadata = sources.getMetadataBuilder().build();
-
-                //Create SessionFactory - ???
-                sessionFactory = metadata.getSessionFactoryBuilder().build();
-
-            } catch (Exception e) {
-                e.printStackTrace();
-                if (registry != null) {
-                    StandardServiceRegistryBuilder.destroy(registry);
-                }
-            }
-        }
-        return sessionFactory;
+    public static Configuration getPostgreSqlConfiguration() {
+        Configuration configuration = new Configuration();
+        configuration.addAnnotatedClass(User.class);
+        configuration.setProperty("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
+        configuration.setProperty("hibernate.connection.driver_class", "org.postgresql.Driver");
+        configuration.setProperty("hibernate.connection.url", "jdbc:postgresql://localhost:5432/task1");
+        configuration.setProperty("hibernate.connection.username", "postgres");
+        configuration.setProperty("hibernate.connection.password", "postgres");
+        configuration.setProperty("hibernate.show_sql", "true");
+        configuration.setProperty("hibernate.hbm2ddl.auto", "update");
+        return configuration;
     }
 
-    public static void shutdown() {
-        if(registry != null) {
-            StandardServiceRegistryBuilder.destroy(registry);
-        }
+    public static SessionFactory getSessionFactory() {
+        Configuration configuration = getPostgreSqlConfiguration();
+        StandardServiceRegistryBuilder builder = new StandardServiceRegistryBuilder();
+        builder.applySettings(configuration.getProperties());
+        ServiceRegistry serviceRegistry = builder.build();
+        return configuration.buildSessionFactory(serviceRegistry);
     }
 }
-
